@@ -14,7 +14,6 @@ namespace AdventOfCode.Implementation._2023
 
         public override int FindResult()
         {
-            var lines = inputReader.ReadFile($"{InputFile}.txt");
             _ = FindAllEngineParts();
             return GearRatio;
         }

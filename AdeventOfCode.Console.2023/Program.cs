@@ -10,6 +10,8 @@ var serviceProvider = new ServiceCollection()
       .AddSingleton<IDayPart, Day2Part2>()
       .AddSingleton<IDayPart, Day3Part1>()
       .AddSingleton<IDayPart, Day3Part2>()
+      .AddSingleton<IDayPart, Day4Part1>()
+      .AddSingleton<IDayPart, Day4Part2>()
       .AddSingleton<IInputReader, InputReader>()
       .BuildServiceProvider();
 var days = serviceProvider.GetServices<IDayPart>();
