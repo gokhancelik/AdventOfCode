@@ -26,10 +26,21 @@ foreach (var day in days)
 while (true)
 {
     var executeDay = Console.ReadLine();
+    if (executeDay == "A")
+    {
+        foreach (var item in daysDictionary)
+        {
+            var dayToExecute = days.SingleOrDefault(p => p.GetType() == item.Value);
+            if (dayToExecute != null)
+            {
+                dayToExecute.Execute();
+            }
+        }
+    }
     if (int.TryParse(executeDay, out i))
     {
         var dayToExecute = days.SingleOrDefault(p => p.GetType() == daysDictionary[i]);
-        if( dayToExecute != null)
+        if (dayToExecute != null)
         {
             dayToExecute.Execute();
         }
