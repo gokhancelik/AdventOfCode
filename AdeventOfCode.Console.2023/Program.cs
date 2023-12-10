@@ -2,19 +2,22 @@
 
 using AdventOfCode.Implementation._2023;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
-var serviceProvider = new ServiceCollection()
-      .AddSingleton<IDayPart, Day1Part1>()
-      .AddSingleton<IDayPart, Day1Part2>()
-      .AddSingleton<IDayPart, Day2Part1>()
-      .AddSingleton<IDayPart, Day2Part2>()
-      .AddSingleton<IDayPart, Day3Part1>()
-      .AddSingleton<IDayPart, Day3Part2>()
-      .AddSingleton<IDayPart, Day4Part1>()
-      .AddSingleton<IDayPart, Day4Part2>()
-      .AddSingleton<IInputReader, InputReader>()
-      .BuildServiceProvider();
-var days = serviceProvider.GetServices<IDayPart>();
+
+var services = new ServiceCollection();
+
+var dayImps = typeof(IDayPart).Assembly.GetTypes()
+    .Where(x => !x.IsAbstract && x.IsClass && x.GetInterface(nameof(IDayPart)) == typeof(IDayPart));
+
+foreach (var dayImp in dayImps)
+{
+    services.Add(new ServiceDescriptor(typeof(IDayPart), dayImp, ServiceLifetime.Singleton));
+}
+
+services.AddSingleton<IInputReader, InputReader>();
+var sp = services.BuildServiceProvider();
+var days = sp.GetServices<IDayPart>();
 var i = 0;
 var daysDictionary = new Dictionary<int, Type>();
 foreach (var day in days)
